@@ -2,27 +2,42 @@ using UnityEngine;
 
 public class BasicMovement : MonoBehaviour
 {
-
-    private const int velocity = 10;
+    [SerializeField]
+    private int velocity = 10;
+    [SerializeField]
+    private int rotationSpeed = 5;
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKey(KeyCode.A))
         {
-            this.transform.position += Vector3.left * velocity * Time.deltaTime;
+            Vector3 direction = Quaternion.AngleAxis(-90, Vector3.up) * this.transform.forward;
+            this.transform.position += direction * velocity * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            this.transform.position += Vector3.right * velocity * Time.deltaTime;
+            Vector3 direction = Quaternion.AngleAxis(90, Vector3.up) * this.transform.forward;
+            this.transform.position += direction * velocity * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.W))
         {
-            this.transform.position += Vector3.forward * velocity * Time.deltaTime;
+            Vector3 direction = this.transform.forward;
+            this.transform.position += direction * velocity * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            this.transform.position += Vector3.back * velocity * Time.deltaTime;
+            Vector3 direction = -1 * this.transform.forward;
+            this.transform.position += direction * velocity * Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            this.transform.rotation *= Quaternion.Euler(0, -rotationSpeed * Time.deltaTime, 0);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            this.transform.rotation *= Quaternion.Euler(0, rotationSpeed * Time.deltaTime, 0);
         }
     }
 }
